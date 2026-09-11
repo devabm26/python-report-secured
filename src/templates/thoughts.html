@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Thoughts &mdash; Dashboard{% endblock %}
+
+{% block content %}
+<section class="summary-bar">
+  <div class="stat">
+    <span class="stat-value">{{ total }}</span>
+    <span class="stat-label">Thoughts</span>
+  </div>
+  {% if thoughts %}
+  <div class="stat">
+    <span class="stat-value">{{ thoughts | selectattr('status', 'equalto', 'published') | list | length }}</span>
+    <span class="stat-label">Published</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">
+      {% set total_up = thoughts | sum(attribute='thumbs_up') %}
+      {{ total_up }}
+    </span>
+    <span class="stat-label">Total Thumbs Up</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">
+      {% set total_down = thoughts | sum(attribute='thumbs_down') %}
+      {{ total_down }}
+    </span>
+    <span class="stat-label">Total Thumbs Down</span>
+  </div>
+  {% endif %}
+</section>
+
+<section class="table-section">
+  <div class="table-controls">
+    <form method="GET" action="/" class="sort-form">
+      <label for="sort">Sort by:</label>
+      <select name="sort" id="sort">
+        {% for col in ['id','author','status','thumbs_up','thumbs_down','net_rating','similarity_score'] %}
+        <option value="{{ col }}" {% if sort_column == col %}selected{% endif %}>{{ col | replace('_', ' ') | title }}</option>
+        {% endfor %}
+      </select>
+      <select name="direction">
+        <option value="ASC"  {% if sort_direction == 'ASC'  %}selected{% endif %}>Ascending</option>
+        <option value="DESC" {% if sort_direction == 'DESC' %}selected{% endif %}>Descending</option>
+      </select>
+      <label for="limit">Rows:</label>
+      <select name="limit" id="limit">
+        {% for n in [50, 100, 250, 500, 1000] %}
+        <option value="{{ n }}" {% if limit == n %}selected{% endif %}>{{ n }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Apply</button>
+    </form>
+  </div>
+
+  {% if thoughts %}
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Content</th>
+          <th>Author</th>
+          <th>Status</th>
+          <th>&#128077; Up</th>
+          <th>&#128078; Down</th>
+          <th>Net Rating</th>
+          <th>Similarity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in thoughts %}
+        <tr>
+          <td class="cell-id">{{ t.id }}</td>
+          <td class="cell-content">{{ t.content }}</td>
+          <td>{{ t.author }}</td>
+          <td><span class="badge badge-{{ t.status | lower | replace(' ', '-') }}">{{ t.status }}</span></td>
+          <td class="cell-num positive">{{ t.thumbs_up }}</td>
+          <td class="cell-num negative">{{ t.thumbs_down }}</td>
+          <td class="cell-num {% if t.net_rating > 0 %}positive{% elif t.net_rating < 0 %}negative{% endif %}">
+            {{ t.net_rating }}
+          </td>
+          <td class="cell-num">
+            {% if t.similarity_score is not none %}
+              {{ "%.4f" | format(t.similarity_score | float) }}
+            {% else %}
+              &mdash;
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty-state">No thoughts found in the database.</p>
+  {% endif %}
+</section>
+{% endblock %}

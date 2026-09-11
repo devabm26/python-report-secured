@@ -1,0 +1,55 @@
+# .dockerignore — exclude files from the container build context
+# Keeps the image lean and prevents secrets from leaking into layers.
+# Spec: specs/deployment/dockerfile.spec
+
+# Secrets — MUST never enter the image
+.env
+.env.*
+*.pem
+*.key
+*credentials*
+*secret*
+
+# Version control
+.git
+.gitignore
+
+# Docs & specs (not needed at runtime)
+*.md
+README.md
+docs/
+specs/
+
+# Tests
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Python artefacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Local virtual environment (image uses /opt/venv from builder stage)
+.venv/
+venv/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# CI/CD & local tooling
+.gitlab-ci-local/
+run_local.sh
+bandit-report.json
+audit-report.json
+sbom.json
+*.log

@@ -1,0 +1,1 @@
+# Thoughts Dashboard application package
