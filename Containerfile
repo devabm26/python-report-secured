@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # ── Stage 2: Runtime ──────────────────────────────────────────────────────────
-FROM registry.access.redhat.com/ubi9/python-39:latest
+FROM registry.access.redhat.com/hi/python:latest
 
 # Install only the runtime PostgreSQL client library (not the full devel stack)
 USER root
