@@ -1,0 +1,44 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: python-report-secured
+  description: python app
+  tags:
+    - python
+    - flask
+    - postgresql
+    - secure-by-default
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: devabm26/python-report-secured
+    dev.redhat.com/devspaces-url: https://devspaces.apps.cluster-6pfqs.6pfqs.sandbox2325.opentlc.com/#https://github.com/devabm26/python-report-secured
+    backstage.io/kubernetes-id: python-report-secured
+    backstage.io/kubernetes-namespace: thoughts-app 
+    janus-idp.io/tekton: python-report-secured
+  links:
+    - url: https://github.com/devabm26/python-report-secured
+      title: View Source
+      icon: github
+    - url: https://devspaces.apps.cluster-6pfqs.6pfqs.sandbox2325.opentlc.com/#https://github.com/devabm26/python-report-secured
+      title: Open in DevSpaces
+      icon: dashboard
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/arunhari82
+  providesApis:
+    - python-report-secured-api
+
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: python-report-secured-api
+  description: REST API for python-report-secured
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/arunhari82
+  definition:
+    $text: ./openapi.yaml
