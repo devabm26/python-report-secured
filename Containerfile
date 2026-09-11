@@ -1,11 +1,11 @@
 # ================================================================================
 # Thoughts Dashboard — Containerfile
-# Base image: Red Hat UBI9 Python 3.9 (enterprise-approved, non-root UID 1001)
+# Base image: Red Hat Hardened Images Python (enterprise-approved, non-root UID 1001)
 # Spec: specs/deployment/dockerfile.spec
 # ================================================================================
 
 # ── Stage 1: Builder ─────────────────────────────────────────────────────────
-FROM registry.access.redhat.com/ubi9/python-39:latest AS builder
+FROM registry.access.redhat.com/hi/python:latest AS builder
 
 # Install build-time dependencies (compiler + PostgreSQL headers for psycopg2)
 USER root

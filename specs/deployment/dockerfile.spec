@@ -18,6 +18,7 @@ APPROVED BASE IMAGES
 ================================================================================
 
 PRODUCTION-APPROVED (Red Hat Universal Base Images):
+  registry.access.redhat.com/hi/python:latest
   registry.access.redhat.com/ubi9/python-311:latest
   registry.access.redhat.com/ubi9/python-39:latest
   registry.access.redhat.com/ubi8/python-39:latest
